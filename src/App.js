@@ -19,7 +19,7 @@ function App() {
     setGender(gender);
     // const contactSelected = data.findIndex((contact) => contact.id === id);
   };
-
+//n
   useEffect(() => {
     if (!id) {
       fetch("http://localhost:3001/getfirstinfo")
