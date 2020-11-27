@@ -1,5 +1,8 @@
-import { createContext } from "react";
+import {createContext} from 'react';
 
-export const MenuContext = createContext(false);
 
-export const DataContext = createContext([]);
+export default createContext(false);
+
+
+export const dispatchContext = createContext(null)
+

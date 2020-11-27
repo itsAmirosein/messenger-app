@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { DataContext } from "./Context";
+import React, { useState } from "react";
 import {
   Avatar,
   ChatLabel,
@@ -7,32 +6,31 @@ import {
   ChatWrapper,
   LastMessege,
   MessegeTime,
-  ChatUnreadMsg,
+  ChatNumbers,
 } from "./StyledComponents";
 
 export default function Chat({
   title,
-  lastMessege,
+  lastMessage,
   onClick,
   time,
-  gender,
-  id,
+  chatNumbers,
+  gender
 }) {
-  const {data,darkmode} = useContext(DataContext);
 
-  const currentContactUnreadMsgLen = data
-    .find((contact) => contact.id === id)
-    .chats.filter((chat) => chat.isOpponent).length;
+  function handelOnClick() {
+    onClick();
+  }
 
   return (
-    <ChatWrapper onClick={onClick} darkmode={darkmode}>
+    <ChatWrapper onClick={handelOnClick}>
       <Avatar gender={gender} />
       <ChatLabel>
         <ChatTitle>{title}</ChatTitle>
-        <LastMessege>{lastMessege}</LastMessege>
+        <LastMessege>{lastMessage}</LastMessege>
       </ChatLabel>
       <MessegeTime>{time}</MessegeTime>
-      <ChatUnreadMsg darkmode={darkmode}>{currentContactUnreadMsgLen}</ChatUnreadMsg>
+      {chatNumbers > 0 && <ChatNumbers>{chatNumbers}</ChatNumbers>}
     </ChatWrapper>
   );
 }

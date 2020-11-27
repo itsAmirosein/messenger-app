@@ -1,11 +1,4 @@
-import React, {
-  createRef,
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { createRef, useEffect, useState } from "react";
 import {
   Avatar,
   ChatHeaderToolWrapper,
@@ -14,117 +7,98 @@ import {
   MessegeViewHeader,
   MessegeViewWrapper,
   ViewUserTitle,
-  ManageMenuWrapper,
-  HearingModal,
-  Ellipsis,
-  MessageContainer
+  ManageMenuWrapper
 } from "./StyledComponents";
 import * as fa from "react-icons/fa";
-import { MdHearing } from "react-icons/md";
 import Messege from "./Messege";
 import SideMenu from "./SideMenu";
-import { DataContext } from "./Context";
+
+
 
 export default function MessegeView({
   title,
-  chats = [],
-  record,
+  chats,
+  clearHistory,
+  deleteContact,
+  SearchMesseges,
+  deleteMessege,
+  replyMessege,
+  forwardMessege,
   isOpen,
-  gender,
-  onClick,
-  handleReply,
-  isVoiceSupport,
-  reply,
+  gender
 }) {
-  const [messegeSearchMode, setMessegeSearchMode] = useState(true);
-  const [manageMenu, setManageMenu] = useState(false);
-  const { darkmode } = useContext(DataContext);
-  const chatRef = useRef();
+  const chatRef = createRef();
+  const [chatMenu, setChatMenu] = useState(false);
+  const [menuFinder, setMenuFinder] = useState(0)
   useEffect(() => {
-    chatRef.current.scrollTo(0, chatRef.current.scrollHeight);
+    chatRef.current.scrollTo(250, chatRef.current.scrollHeight);
   }, [chatRef]);
 
-  const rightClickHistory = useCallback((e) => {
-    if (e.type === "contextmenu") {
-      e.preventDefault();
-      e.stopPropagation();
-      setManageMenu(false);
-    }
-  }, []);
-  const handleClearWindow = () => {
-    setManageMenu(false);
-  };
-  const handleMenu = (e) => {
-    setMessegeSearchMode(!messegeSearchMode);
-    isOpen(messegeSearchMode);
-  };
+  useEffect(
+    () =>
+      window.addEventListener("click", () => {
+        if (chatMenu) {
+          setChatMenu(false);
+        }
+      }),
+    [chatMenu]
+  );
+
+
   return (
-    <MessegeViewWrapper darkmode={darkmode} reply={reply}>
-      <MessegeViewHeader darkmode={darkmode}>
-        <ViewUserTitle onClick={handleMenu}>
+    <MessegeViewWrapper>
+      <MessegeViewHeader>
+        <ViewUserTitle>
           <Avatar gender={gender} />
           <ChatTitle>{title}</ChatTitle>
         </ViewUserTitle>
-        {/* {messegeSearchMode && (
-          <MessegeViewInput placeholder="Search in messages..." />
-        )} */}
-        <ChatHeaderToolWrapper darkmode={darkmode}>
-          {!darkmode && <fa.FaMoon onClick={onClick} />}
-          {darkmode && <fa.FaSun onClick={onClick} />}
-          <fa.FaSearch onClick={handleMenu} />
-
-          <fa.FaEllipsisV onClick={() => setManageMenu(!manageMenu)} />
+        <ChatHeaderToolWrapper>
+          <fa.FaSearch onClick={SearchMesseges} />
+          <fa.FaEllipsisV
+            onClick={(eve) => {
+              setChatMenu(!chatMenu);
+              eve.stopPropagation();
+            }}
+          />
         </ChatHeaderToolWrapper>
-        {manageMenu && (
-          <ManageMenuWrapper darkmode={darkmode}>
-            <span>Clear chat history</span>
-            <span>Delete this contact</span>
+        {chatMenu && (
+          <ManageMenuWrapper>
+            <span onClick={clearHistory}>Clear chat history</span>
+            <span onClick={deleteContact}>Delete this contact</span>
           </ManageMenuWrapper>
         )}
       </MessegeViewHeader>
-      {!record && (
-        <HearingModal>
-          <MdHearing />
-          {isVoiceSupport ? (
-            <span>
-              Listening
-              <Ellipsis>
-                <span>.</span>
-                <span>.</span>
-                <span>.</span>
-              </Ellipsis>
-            </span>
-          ) : (
-            "Your PC doesnt support voice chat , or we have no access to your mic."
-          )}
-        </HearingModal>
-      )}
-      <ChatPage
-        darkmode={darkmode}
-        ref={chatRef}
-        onClick={handleClearWindow}
-        onContextMenu={rightClickHistory}
-      >
-        {chats.map((chat) => {
-          return (
-            <MessageContainer key={chat.id}>
-              <Messege
-                
-                message={chat.messege}
-                time={chat.messegeTime}
-                isOpponent={chat.isOpponent}
-                handleReply={() => handleReply(chat.messege)}
-                reply={reply}
-                id={chat.id}
-              />
-            </MessageContainer>
-          );
-        })}
+      <ChatPage ref={chatRef}>
+        {chats.length > 0 &&
+          chats.map((chat) => {
+            return (
+              <>
+                <Messege
+                  key={chat.id}
+                  chatName={title}
+                  message={chat.messege}
+                  messegeTime={chat.messegeTime}
+                  isOpponent={chat.isOpponent}
+                  messegeId={chat.id}
+                  messegeMenuId={menuFinder}
+                  replay={chat.replay}
+                  menuFinder={(val) => setMenuFinder(val)}
+                  isforwarded={chat.isforwarded}
+                  deleteMessege={() => deleteMessege(chat.id, chat.isOpponent)}
+                  replyMessege={() => replyMessege(chat)}
+                  forwardMessege={() => {
+                    const forwardTitle = chat.isOpponent ? "You" : title;
+                    forwardMessege(forwardTitle, chat.messege);
+                  }}
+                />
+              </>
+            );
+          })}
       </ChatPage>
       <SideMenu
-        messegeSearchMode={messegeSearchMode}
+        messegeSearchMode={SearchMesseges}
+        isOpen={isOpen}
         title={title}
-        onClick={handleMenu}
         chats={chats}
       />
     </MessegeViewWrapper>

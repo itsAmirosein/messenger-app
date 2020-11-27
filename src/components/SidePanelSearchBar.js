@@ -1,49 +1,37 @@
-import React, { useContext, useState } from "react";
-import {
-  InputSearch,
-  SideSearchWrapper,
-  SidePanelInput,
-} from "./StyledComponents";
+import React, { useEffect, useRef, useState } from "react";
+import { InputSearch, SideSearchWrapper,MenuBar ,SearchBar ,SearchInput} from "./StyledComponents";
 import * as fa from "react-icons/fa";
-import { DataContext } from "./Context";
-import ReactDOM from "react-dom";
-import SideMenu from "./SideMenu";
-import SidePanelOffMenu from "./SidePanelOffMenu";
 
-export default function SidePanelSearchBar() {
-  const [searchMode, setSearchMode] = useState(false);
-  const [starMenu, setStarMenu] = useState(false);
-  const [value, setValue] = useState("");
-  const { darkmode } = useContext(DataContext);
-  const handleChangeMode = () => {
-    setSearchMode(!searchMode);
-  };
 
-  const handleContactSearch = (e) => {
-    setValue(e.target.value);
-  };
-  const onClickSideMenu = () => {
-    setStarMenu(!starMenu);
+export default function SidePanelSearchBar({ onClick, handelOnChange }) {
+  const [searchBar, setSearchBar] = useState(false)
+
+  const inputRef = useRef()
+  useEffect(() => {
+    if (searchBar) {
+      inputRef.current.focus()
+
+    }
+  }, [searchBar])
+
+  function handelChange(eve) {
+    handelOnChange(eve.target.value)
+
   }
   return (
-    <SideSearchWrapper darkmode={darkmode}>
-      {!searchMode ? (
-        <fa.FaBars onClick={onClickSideMenu} />
-      ) : (
-        <fa.FaArrowLeft onClick={handleChangeMode} />
-      )}
-      {!searchMode && <InputSearch>Mapsa Messenger</InputSearch>}
-      {searchMode && (
-        <SidePanelInput
-          type="text"
-          placeholder="Search in contacts..."
-          value={value}
-          onChange={handleContactSearch}
-          darkmode={darkmode}
-        />
-      )}
-      {!searchMode && <fa.FaSearch onClick={handleChangeMode} />}
-      <SidePanelOffMenu starMenu={starMenu} onClickSideMenu={onClickSideMenu} />
+    <SideSearchWrapper>
+      {!searchBar && <MenuBar>
+        <fa.FaBars onClick={onClick} />
+        <InputSearch>Mapsa Messenger</InputSearch>
+        <fa.FaSearch onClick={() => setSearchBar(true)} />
+      </MenuBar>}
+      {searchBar && <SearchBar>
+        <fa.FaArrowLeft onClick={() => setSearchBar(false)} />
+
+        <SearchInput ref={inputRef} onChange={handelChange} placeholder='Search in contacts...' />
+
+      </SearchBar>}
     </SideSearchWrapper>
+
   );
 }

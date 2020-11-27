@@ -6,17 +6,11 @@ import {
   FilterSearch,
 } from "./StyledComponents";
 import * as fa from "react-icons/fa";
-import { DataContext } from "./Context";
 
-export default function SideMenu({
-  messegeSearchMode,
-  title,
-  onClick,
-  chats,
-  whatMenu,
-}) {
+
+export default function SideMenu({messegeSearchMode,isOpen,chats =[],title}) {
   const [value, setValue] = useState("");
-  const { darkmode } = useContext(DataContext);
+ 
   const handleMessageSearch = (e) => {
     setValue(e.target.value);
   };
@@ -25,13 +19,13 @@ export default function SideMenu({
   );
 
   return (
-    <SideMenuWrapper messegeSearchMode={messegeSearchMode} darkmode={darkmode}>
-      <SideMenuHeader darkmode={darkmode}>
-        <fa.FaTimes onClick={onClick} />
+    <SideMenuWrapper isOpen={isOpen} >
+      <SideMenuHeader>
+        <fa.FaTimes onClick={messegeSearchMode} />
         Search Messages
       </SideMenuHeader>
       <SideMenuInput
-        darkmode={darkmode}
+        
         type="text"
         placeholder="Search..."
         value={value}

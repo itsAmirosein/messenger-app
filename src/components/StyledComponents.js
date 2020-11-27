@@ -1,10 +1,4 @@
 import styled, { keyframes } from "styled-components";
-import { fadeIn, fadeInRight } from "react-animations";
-const FadeIn = keyframes`${fadeIn}`;
-const FadeInRight = keyframes`${fadeInRight}`;
-
-const darkmodeBgColor = "#0f1724";
-const secondaryColor = "#1d2636";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -21,13 +15,13 @@ export const ChatViewWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   height: 100%;
-  background-color: ${(props) => (props.darkmdoe ? secondaryColor : "#ece5dd")};
-  background-image:url('./images/initBg.svg');
-  background-position:center;
-  background-size:contain;
-  background-repeat:no-repeat;
+  background-color: #ece5dd;
+  background-image: url("./images/initBg.svg");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right: ${(props) => (props.isOpen ? "402px" : "0px")};
   transition: all 0.5s ease-in-out;
-  margin-right: ${(props) => (props.menu ? "400px" : 0)};
 `;
 
 export const SideWrapper = styled.div`
@@ -35,23 +29,19 @@ export const SideWrapper = styled.div`
   max-width: 100%;
   width: 500px;
   height: 100%;
-  background-color: ${(props) => (props.darkmode ? secondaryColor : "#f1ebe7")};
+  background-color: #ffffff;
   overflow-y: auto;
-  overflow-x: hidden;
-  transition: all 0.2s ease;
-  z-index: 999;
   &::-webkit-scrollbar {
     width: 10px;
   }
 
   &::-webkit-scrollbar-track {
-    background: ${(props) => (props.darkmode ? secondaryColor : "#f1ebe7")};
-    transition: all 0.2s ease;
-    margin-top: 70px;
+    background: #f5f0ebcc;
   }
 
   &::-webkit-scrollbar-thumb {
     background: #16a191;
+    border-radius: 50px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
@@ -60,29 +50,25 @@ export const SideWrapper = styled.div`
 `;
 
 export const MessegeInputWrapper = styled.div`
-  position: absolute;
-  z-index: 9999;
+  position: relative;
+  z-index: 2;
   width: 100%;
   height: 70px;
   bottom: 0;
   top: auto;
-  transition: all 0.2s ease;
-  /* box-shadow: 0px -1px 2px rgba(100, 100, 100, 0.15); */
-  background-color: ${(props) => (props.darkmode ? secondaryColor : "#f1ebe7")};
+  background-color: #f0f0f0;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
   padding: 0 20px;
   > svg {
     font-size: 1.6rem;
-    color: ${(props) => (props.darkmode ? "#f2f2f2" : "#333")};
+    color: #333;
     cursor: pointer;
     margin-right: 5px;
     &:last-child {
-      color: ${(props) =>
-        !props.value
-          ? `${props.darkmode ? "#f2f2f2" : "#333"}`
-          : `${props.darkmode ? "#f2f2f2" : "#128c7e"}`};
+      color: ${(props) => (!props.value ? "#333" : "#128c7e")};
     }
   }
 `;
@@ -94,27 +80,22 @@ export const ChatInput = styled.input`
   border-radius: 4px;
   font-size: 1.05rem;
   padding: 0 8px;
-  background-color: ${(props) => (props.darkmode ? darkmodeBgColor : "#fff")};
-  color: ${(props) => (props.darkmode ? "#fff" : "#222")};
-  transition: all 0.2s ease;
 `;
 
 export const SideSearchWrapper = styled.div`
-  position: relative;
+  /* position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 10px 0 20px;
+  padding: 0 20px;
   width: 100%;
   height: 70px;
-  transition: all 0.2s ease;
-  color: ${(props) => (props.darkmode ? "#fff" : "#222")};
-  background-color: ${(props) => (props.darkmode ? secondaryColor : "#f1ebe7")};
+  background-color: #f5f0ebcc;
   > svg {
     font-size: 1.3rem;
-    color: ${(props) => (props.darkmode ? "#fff" : "#128c7e")}; //#128c7e
+    color: #128c7e;
     cursor: pointer;
-  }
+  } */
 `;
 
 export const ChatWrapper = styled.div`
@@ -124,47 +105,27 @@ export const ChatWrapper = styled.div`
   align-items: center;
   width: 100%;
   height: 90px;
-
-  background-color: ${(props) => (props.darkmode ? darkmodeBgColor : "#fff")};
-  border-bottom: ${(props) =>
-    props.darkmode
-      ? `1px solid ${secondaryColor}`
-      : "1px solid #e6e6e6"}; //1d2636
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
   padding: 0 20px;
-  color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease-in-out;
   &:hover {
-    background-color: ${(props) =>
-      props.darkmode ? secondaryColor : "#e9e2dc80"};
+    background-color: #e9e2dc80;
   }
-`;
-export const ChatUnreadMsg = styled.span`
-  position: absolute;
-  right: 10px;
-  bottom: 10px;
-  font-size: 0.7rem;
-  transition: all 0.2s ease;
-  background-color: ${(props) => (props.darkmode ? secondaryColor : "#d6d6d6")};
-  color: #f2f2f2;
-  min-width: 20px;
-  box-shadow: ${(props) =>
-    props.darkmode ? `0px 0px 2px ${darkmodeBgColor}` : "none"};
-  min-height: 20px;
-  padding: 0px 2px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
+  &:not(:last-child) {
+    border-bottom: none;
+  }
 `;
 
 export const Avatar = styled.div`
-  min-width: 50px;
-  min-height: 50px;
+  width: 55px;
+  height: 55px;
   border-radius: 50%;
   background-image: ${(props) =>
     props.gender === "male"
-      ? 'url("./images/Avatar.svg")'
-      : 'url("./images/girl.svg")'};
+      ? `url("./images/Avatar.svg")`
+      : `url("./images/girl.svg")`};
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -198,7 +159,7 @@ export const MessegeTime = styled.span`
   top: 10px;
   right: 10px;
   color: #bbb;
-  font-size: 0.85rem;
+  font-size: 0.95rem;
 `;
 
 export const InputSearch = styled.div`
@@ -211,7 +172,7 @@ export const InputSearch = styled.div`
 export const MessegeViewWrapper = styled.div`
   position: relative;
   width: 100%;
-  padding: ${(props) => (props.reply ? "70px 0 140px 0" : "70px 0 70px 0")};
+  padding: 70px 0 0 0;
   height: 100%;
   background-color: #ece5dd;
   background-image: url("./images/bgDoodle.png");
@@ -219,9 +180,6 @@ export const MessegeViewWrapper = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  background-blend-mode: ${(props) =>
-    props.darkmode ? "difference" : "normal"};
-  transition: all 0.2s ease;
   overflow: hidden;
 `;
 export const MessegeViewHeader = styled.div`
@@ -230,126 +188,56 @@ export const MessegeViewHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.2s ease;
   width: 100%;
-  color: ${(props) => (props.darkmode ? "#fff" : "#222")};
-  border-left: ${(props) =>
-    props.darkmode
-      ? `1px solid ${darkmodeBgColor}`
-      : "1px solid #e7e2de"}; //#e7e2de
   height: 70px;
-  background-color: ${(props) =>
-    props.darkmode ? secondaryColor : "#f1ebe7"}; //#f1ebe7
+  background-color: #fff;
   box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
   top: 0;
   padding: 0 20px;
 `;
 export const ChatPage = styled.div`
   position: relative;
-  padding: 20px 30px;
   z-index: 1;
   width: 100%;
   height: 100%;
   overflow-y: auto;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   scroll-behavior: smooth;
-  transition: all 0.2s ease;
   &::-webkit-scrollbar {
     width: 10px;
   }
 
   &::-webkit-scrollbar-track {
-    background: ${(props) => (props.darkmode ? secondaryColor : "#f5f0ebcc")};
-    transition: all 0.2s ease;
+    background: #f5f0ebcc;
   }
 
   &::-webkit-scrollbar-thumb {
     background: #16a191;
-    border-radius: 1px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
     background: #128c7e;
   }
 `;
-export const MessageContainer = styled.div`
-  margin: 40px 10px;
-`;
+
 export const MessegeWrapper = styled.div`
-  animation: 1s ${FadeIn};
-  position: relative;
-  min-width: 45px;
-  max-width: 700px;
-  box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.15);
-  padding: ${(props) =>
-    props.reply
-      ? "5px 10px 20px 10px"
-      : props.message.length !== 0
-      ? "5px 70px 10px 10px"
-      : "5px 70px 20px 10px"};
+  padding: 4px 30px 4px 10px;
   border-radius: 5px;
-  line-height: 20px;
-  transition: all 0.2s ease;
-  text-align: justify;
-  border-top-right-radius: ${(props) => !props.isOpponent && 0};
-  border-top-left-radius: ${(props) => props.isOpponent && 0};
-  margin-left: ${(props) => (props.isOpponent ? "10px" : "auto")} !important;
-  background-color: ${(props) =>
-    props.isOpponent
-      ? props.darkmode
-        ? secondaryColor
-        : "#fff"
-      : props.darkmode
-      ? darkmodeBgColor
-      : "#DCF8C6"};
-  color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
+  /* margin-left: ${(props) =>
+    props.isOpponent ? "px" : "auto"} !important; */
+  background-color: ${(props) => (props.isOpponent ? "#fff" : "#DCF8C6")};
+  color: #222;
   display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  align-items: flex-start;
-  width: fit-content;
-  > span {
-    position: absolute;
-    font-size: 0.7rem;
-    bottom: 0;
-    right: 10px;
-    color: ${(props) => (props.darkmode ? "#cfcfcf" : "#555")};
-    /* margin: ${(props) => (props.isOpponent ? "0 5px 0 0" : "0 0 0 5px")}; */
-    font-style: normal !important;
-    display: flex;
-    align-items: center;
-    svg {
-      margin-right: 2px;
-      font-size: 0.62rem;
-      color: #999;
-    }
+  width: 100%;
+  max-width: 700px;
+  flex-direction: row;
+  position: relative;
+  > div {
+    font-size: 0.95rem;
   }
-  font-style: ${(props) => (props.isDelete ? "italic" : "normal")};
-  font-size: ${(props) => (props.isDelete ? "14px" : "15px")};
-  &::after {
-    content: " ";
-    position: absolute;
-    transition: all 0.2s ease;
-    right: ${(props) => !props.isOpponent && "-8px"};
-    left: ${(props) => props.isOpponent && "-8px"};
-    bottom: calc(100% - 9px);
-    border-top: 0px solid transparent;
-    border-right: ${(props) =>
-      !props.isOpponent
-        ? "none"
-        : `9px solid ${props.darkmode ? secondaryColor : "#fff"}`};
-    border-left: ${(props) =>
-      props.isOpponent
-        ? "none"
-        : `9px solid ${
-            props.darkmode ? darkmodeBgColor : "#DCF8C6"
-          }`}; //#DCF8C6
-    border-bottom: 9px solid transparent;
-    filter: drop-shadow(0px 1px 1px rgba(100, 100, 100, 0.15));
-  }
+
 `;
 
 export const ViewUserTitle = styled.div`
@@ -364,14 +252,11 @@ export const ChatHeaderToolWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 0.2s ease;
   > svg {
     font-size: 1.3rem;
-    color: ${(props) => (props.darkmode ? "#fff" : "#128c7e")};
+    margin-left: 30px;
+    color: #128c7e;
     cursor: pointer;
-    &:not(:nth-child(1)) {
-      margin-left: 30px;
-    }
   }
 `;
 
@@ -383,432 +268,36 @@ export const SideMenuWrapper = styled.div`
   width: 400px;
   max-width: 100%;
   position: fixed;
-  border-left: ${(props) =>
-    props.darkmode ? `1px solid ${secondaryColor}` : "1px solid #e0e0e0"};
+  border-left: 1px solid #e0e0e0;
   top: 0;
   right: 0;
   height: 100%;
-  background-color: ${(props) => (props.darkmode ? darkmodeBgColor : "#fff")};
+  overflow-y: auto;
+  background-color: #fff;
   transition: all 0.5s ease-in-out;
   transform: ${(props) =>
-    !props.messegeSearchMode ? "translateX(0)" : "translateX(100%)"};
+    props.isOpen ? "translateX(0)" : "translateX(100%)"};
   span {
     margin-top: 200px;
     color: #aaa;
     font-size: 0.9rem;
   }
 `;
-
-export const SidePanelMenu = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
-  width: 500px;
-  max-width: 100%;
-  position: fixed;
-  /* border-right: ${(props) =>
-    props.darkmode ? `1px solid ${secondaryColor}` : "1px solid #e0e0e0"}; */
-  top: 0;
-  left: 0;
-  height: 100%;
-  background-color: #fff;
-  transform: ${(props) =>
-    props.starMenu ? "translateX(0)" : "translateX(-100%)"};
-  transition: all 0.5s ease-in-out;
-  z-index: 99;
-`;
-
-export const SidePanelMenuHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 100px 0px 10px 20px;
-  position: relative;
-  width: 100%;
-  max-width: 100%;
-  height: 150px;
-  background-color: #128c7e;
-  font-size: 1.2rem;
-  color: #fff;
-  span {
-    flex-grow: 1;
-  }
-  svg {
-    margin-right: 30px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    &:nth-child(3) {
-      margin-right: 10px;
-      font-size: 1.2rem;
-      color: #fff;
-    }
-  }
-`;
-export const SidePanelBody = styled.div`
-  position: relative;
-  width: 100%;
-  height: calc(100% - 150px);
-  background-color: rgba(241, 240, 228, 0.8);
-  overflow-y: auto;
-  overflow-x: hidden;
-  &::-webkit-scrollbar {
-    width: 10px;
-  }
-
-  &::-webkit-scrollbar-track {
-    background: "#f1ebe7";
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: #16a191;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    background: #128c7e;
-  }
-`;
-
-export const StarredMessageWrapper = styled.div`
-  position: relative;
-  width: 500px;
-
-  height: auto;
-  /* overflow: hidden; */
-  padding: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  border-bottom: 1px solid #e4e4e4;
-  &:last-child {
-    border-bottom: none;
-  }
-`;
-export const UserStarred = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  margin-left: 15px;
-  font-size: 0.85rem;
-`;
-export const UserInfo = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  span {
-    margin-left: 5px;
-  }
-  > div {
-    min-height: 40px !important;
-    min-width: 40px !important;
-  }
-`;
-export const StarredTime = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #aaa;
-  margin-right: 5px;
-  span {
-    margin-right: 5px;
-  }
-  svg {
-    cursor: pointer;
-    transition: all 0.2s ease;
-    &:hover {
-      color: #222;
-    }
-  }
-`;
-
-export const UnstarAllBtn = styled.div`
+export const ChatNumbers = styled.span`
   position: absolute;
-  bottom: 18px;
-  color: #333;
-  right: 30px;
-  background-color: #fff;
-  border-radius: 3px;
-  padding: 3px 6px;
-  font-size: 1rem;
-  animation: 0.5s ${FadeIn};
-  box-shadow: 0px 1px 1px rgba(100, 100, 100, 0.15);
-  cursor: pointer;
-  &:hover {
-    background-color: #e4e4e4;
-  }
-`;
-export const StarMessage = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 10px 10px 0 10px;
-  svg {
-    color: #ccc;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    &:hover {
-      color: #333;
-    }
-  }
-`;
-
-export const SidePanelInput = styled.input`
-  animation: 1.3s ${FadeInRight};
-  flex: 0.94;
-  height: 34px;
-  color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
-  border: none;
-  border-bottom: ${(props) =>
-    props.darkmode ? `1px solid #777` : "1px solid #dadada"} !important;
-  outline: none;
-  padding: 0 5px;
-  font-size: 0.9rem;
+  right: 10px;
+  bottom: 10px;
+  font-size: 0.7rem;
   transition: all 0.2s ease;
-  background-color: transparent;
-  &::placeholder {
-    color: #ccc;
-  }
+  background-color: #d6d6d6;
+  color: #f2f2f2;
+  min-width: 20px;
+  min-height: 20px;
+  padding: 0px 2px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
 `;
-
-export const MessegeViewInput = styled.input`
-  flex: 0.8;
-  height: 34px;
-  border: none;
-  margin-left: auto;
-  margin-right: 50px;
-  color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
-  border-bottom: ${(props) =>
-    props.darkmode ? `1px solid ${secondaryColor}` : "1px solid #dadada"};
-  outline: none;
-  padding: 0 5px;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-  background-color: transparent;
-  &::placeholder {
-    color: #ccc;
-  }
-`;
-
-export const ContextClick = styled.div`
-  animation: 0.5s ${FadeIn};
-  position: absolute;
-  overflow: hidden;
-  width: 110px;
-  box-shadow: 0px 1px 4px rgba(100, 100, 100, 0.6);
-  top: calc(100% + 4px);
-  right: ${(props) => !props.isOpponent && 0};
-  left: ${(props) => props.isOpponent && 0};
-  background-color: ${(props) =>
-    props.darkmode ? darkmodeBgColor : " #f2f2f2"};
-  border-radius: 5px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  transition: all 0.2s ease;
-  box-shadow: 0px 0px 1px rgba(100, 100, 100, 0.2);
-  span {
-    color: ${(props) => (props.darkmode ? "#f2f2f2" : "#333")};
-    transition: all 0.2s ease;
-    font-size: 0.8rem;
-    padding: 3px 8px;
-    width: 100%;
-    margin: 0;
-    /* background-color:#222; */
-    cursor: pointer;
-    &:hover {
-      background-color: ${(props) =>
-        props.darkmode ? secondaryColor : " #e7e7e7"};
-    }
-  }
-`;
-
-export const UndoWrapper = styled.div`
-  animation: 1s ${FadeIn};
-  position: absolute;
-  padding: 5px;
-  width: 80px;
-  top: calc(100% + 5px);
-  right: ${(props) => !props.isOpponent && "-7px"};
-  left: ${(props) => props.isOpponent && "-7px"};
-  background-color: ${(props) =>
-    props.darkmode ? darkmodeBgColor : " #16a191"};
-  border-radius: 5px;
-  display: flex;
-
-  align-items: center;
-  transition: all 0.2s ease;
-  cursor: pointer;
-  box-shadow: 0px 0px 2px rgba(100, 100, 100, 0.2);
-  span {
-    color: #fff;
-    font-size: 0.95rem;
-    font-style: normal !important;
-    font-family: "Roboto";
-    margin-left: 7px;
-  }
-  &:hover {
-    background-color: ${(props) =>
-      props.darkmode ? secondaryColor : " #128c7e"};
-  }
-
-  small {
-    margin-right: 1px;
-    text-align: center;
-    font-style: normal;
-    font-size: 0.9rem;
-  }
-`;
-
-export const ManageMenuWrapper = styled.div`
-  animation: 0.5s ${FadeIn};
-  width: auto;
-  height: auto;
-  position: absolute;
-  z-index: 999;
-  top: 50px;
-  right: 30px;
-  background-color: ${(props) => (props.darkmode ? darkmodeBgColor : "#fff")};
-  transition: all 0.2s ease;
-  border-radius: 5px;
-  box-shadow: 0px 0px 3px rgba(100, 100, 100, 0.2);
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  overflow: hidden;
-  transition: all 0.2s ease;
-  span {
-    font-size: 0.93rem;
-    color: ${(props) => (props.darkmode ? "#fff" : "#222")};
-    width: 100%;
-    padding: 5px 10px;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    &:hover {
-      background-color: ${(props) =>
-        props.darkmode ? secondaryColor : "#e2e2e2"};
-    }
-  }
-`;
-
-export const HearingModal = styled.div`
-  animation: 1s ${FadeIn};
-  position: absolute;
-  text-align: center;
-  width: 400px;
-  max-width: 95%;
-  margin: 0 auto;
-  height: 230px;
-  background-color: rgba(18, 140, 126, 0.75);
-  left: 50%;
-  top: 50%;
-  z-index: 9999;
-  transform: translate(-50%, -20%);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column;
-  padding: 10px;
-  color: #fff;
-  border-radius: 5px;
-  box-shadow: 0px 0px 2px rgba(100, 100, 100, 0.2);
-  span {
-    font-size: 1.2rem;
-    font-style: italic;
-  }
-  svg {
-    font-size: 8rem;
-  }
-`;
-
-export const Ellipsis = styled.span`
-  span {
-    opacity: 0;
-    -webkit-animation: ellipsis-dot 1.4s infinite;
-    animation: ellipsis-dot 1.4s infinite;
-  }
-  span:nth-child(1) {
-    -webkit-animation-delay: 0s;
-    animation-delay: 0s;
-    margin-left: 3px;
-  }
-  span:nth-child(2) {
-    -webkit-animation-delay: 0.3s;
-    animation-delay: 0.3s;
-  }
-  span:nth-child(3) {
-    -webkit-animation-delay: 0.5s;
-    animation-delay: 0.5s;
-  }
-  @-webkit-keyframes ellipsis-dot {
-    0% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-
-  @keyframes ellipsis-dot {
-    0% {
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-`;
-
-export const SideMenuHeader = styled.div`
-  position: relative;
-  height: 70px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  color: #aaa;
-  align-items: center;
-  border-bottom: ${(props) =>
-    props.darkmode ? `1px solid ${secondaryColor}` : "1px solid #e2e2e2"};
-  svg {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: all 0.2s ease;
-    font-size: 1.3rem;
-    color: ${(props) => (props.darkmode ? "#f2f2f2" : "#444")};
-    cursor: pointer;
-  }
-`;
-
-export const SideMenuInput = styled.input`
-  width: 90%;
-  height: 35px;
-  color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
-  border: none;
-  border-bottom: ${(props) =>
-    props.darkmode ? `1px solid ${secondaryColor}` : "1px solid #dadada"};
-  outline: none;
-  padding: 0 5px;
-  margin-top: 20px;
-  font-size: 0.9rem;
-  transition: all 0.2s ease;
-  background-color: transparent;
-  &::placeholder {
-    color: #ccc;
-  }
-`;
-
 export const FilterSearch = styled.p`
   width: 90%;
   font-size: 0.9rem;
@@ -826,64 +315,367 @@ export const FilterSearch = styled.p`
     }
   }
 `;
-
-export const ReplyWrapper = styled.div`
-  width: 100%;
-  height: 70px;
-  background-color: ${(props) => (props.darkmode ? secondaryColor : "#f1ebe7")};
+export const SideMenuHeader = styled.div`
   position: absolute;
-  bottom: 0px;
-  left: 0;
-  z-index: 1;
+  height: 70px;
+  width: 100%;
   display: flex;
   justify-content: center;
+  color: #aaa;
   align-items: center;
-  transition: all 0.2s ease;
-  padding: 1px 80px 0 40px;
 
-  transform: ${(props) => (props.reply ? "translateY(-100%)" : "none")};
   svg {
     position: absolute;
-    right: 20px;
-    top: 10px;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.2s ease;
+    font-size: 1.3rem;
+    color: ${(props) => (props.darkmode ? "#f2f2f2" : "#444")};
     cursor: pointer;
-    color: ${(props) => (props.darkmode ? "#fff" : "#222")};
   }
 `;
-
-export const ReplyMessege = styled.div`
-  position: relative;
-  border-radius: 4px;
-  overflow: hidden;
-  padding: 5px 10px;
-  width: 100%;
-  height: 90%;
-  margin: 5px 0;
-  background-color: ${(props) =>
-    props.darkmode ? "#0a111d" : "rgba(110, 110, 110, 0.11)"};
+export const SideMenuInput = styled.input`
+  width: 90%;
+  height: 35px;
   color: ${(props) => (props.darkmode ? "#f2f2f2" : "#222")};
-  border-left: ${(props) =>
-    props.isOpponent ? "4px solid #34b7f1" : "4px solid #b819d8"};
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  flex-direction: column;
+  border: none;
+  position: relative;
+  outline: none;
+  padding: 0 5px;
+  margin-top: 100px;
   font-size: 0.9rem;
   transition: all 0.2s ease;
-  span {
-    &:first-child {
-      color: ${(props) => (props.isOpponent ? "#34b7f1" : "#b819d8")};
-    }
+  background-color: transparent;
+  &::placeholder {
+    color: #ccc;
   }
-  span {
-    &:nth-child(2) {
-      color: ${(props) => (props.darkmode ? "#ccc" : "#222")};
+`;
+
+export const Enter = keyframes`
+from{
+  transform:translateY(100%)
+
+}
+
+to{
+  transform:translateY(0)
+}
+`;
+
+export const ReplyMessegeWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  background-color: #f0f0f0;
+  animation: ${Enter} 0.2s ease;
+  font-family: "Roboto", sans-serif !important;
+`;
+export const ReplyMessege = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-width: 70%;
+  margin: 7px 0 0 20px;
+  background-color: #dadada;
+  border: none;
+  border-left: 6px solid #6bcbef;
+  border-radius: 7px;
+  font-family: "Roboto", sans-serif !important;
+`;
+export const DeleteReply = styled.span`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  padding: 10px 30px;
+  right: 10px;
+  color: #919191;
+  svg {
+    cursor: pointer;
+  }
+`;
+export const ReplyOn = styled.div`
+  padding: 5px;
+  font-size: 12px;
+  font-weight: 700;
+  color: ${(props) => (props === "You" ? "#6BCBEF" : " #416E23")};
+`;
+export const ReplyText = styled.div`
+  padding: 5px;
+  font-size: 15px;
+  font-family: "Roboto";
+`;
+
+export const MessegeMenu = styled.span`
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #222;
+  visibility: ${(props) => (props.show ? "visible" : "hidden")};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    cursor: pointer;
+  }
+`;
+
+export const fadeIn = keyframes`
+  from {
+   opacity:0;
+  }
+
+  to {
+    opacity:1;
+  }
+`;
+
+export const fadeOut = keyframes`
+  from {
+    transform: scale(1);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(.25);
+    opacity: 1;
+  }
+`;
+
+export const MessegeMenuList = styled.span`
+  border: 1px solid #dce0db;
+  outline: none;
+  background-color: white;
+  width: 140px;
+  z-index: 100;
+  position: absolute;
+  right: 0;
+  top: calc(100% + -7px);
+  color: #222;
+  transition: all 2s linear;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 5px;
+  animation: ${(props) => (props.out ? fadeIn : fadeOut)} 0.3s ease;
+`;
+export const Item = styled.div`
+  border-bottom: 1px solid silver;
+  padding: 10px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: #ced1cc;
+    cursor: pointer;
+    &:first-child {
+      border-radius: 4px 4px 0px 0px;
+    }
+    &:last-child {
+      border-radius: 0px 0px 4px 4px;
+    }
+    &:active {
+      background-color: #8b8e8a;
     }
   }
 `;
 
+export const MessegeboxWrapper = styled.div`
+  margin: 40px 30px;
+  padding: 4px 10px;
+  border-radius: 5px;
+  margin-left: ${(props) => (props.isOpponent ? "30px" : "auto")} !important;
+  background-color: ${(props) => (props.isOpponent ? "#fff" : "#DCF8C6")};
+  color: #222;
+  display: flex;
+  width: fit-content;
+  max-width: 700px;
+  flex-direction: column;
+  position: relative;
+`;
+export const Replay = styled.div`
+  background-color: rgba(0, 0, 0, 0.1);
+  border-left: ${(props) =>
+    props.rep ? " 3px solid #34B7F1" : " 3px solid #d31eca"};
+  outline: none;
+  border-radius: 4px;
+`;
+export const ReplayName = styled.div`
+  padding: 10px 10px 4px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  color: ${(props) => (props.rep ? "#34B7F1" : "#d31eca")};
+`;
+
+export const ReplText = styled.div`
+  padding: 4px 10px;
+  font-family: sans-serif;
+  font-size: 14px;
+`;
+
+export const Forward = styled.div`
+  background-color: #bee3b4;
+  border-left: 3px solid #416e23;
+  outline: none;
+  border-radius: 4px;
+`;
+
+export const ForwardText = styled.div`
+  padding: 7px 10px;
+  font-family: sans-serif;
+  font-size: 14px;
+`;
+export const ForwardLabel = styled.span`
+  color: #416e23;
+  font-size: 12px;
+  font-weight: 700;
+`;
+export const ForwardFrom = styled.span`
+  font-size: 13px;
+  font-weight: 700;
+`;
 export const ReadMore = styled.span`
   color: #34b7f1;
   cursor: pointer;
   margin-left: 2px;
+`;
+export const ManageMenuWrapper = styled.div`
+  width: auto;
+
+  position: absolute;
+  z-index: 999;
+  top: 50px;
+  right: 30px;
+  background-color: #fff;
+  transition: all 0.2s ease;
+  border-radius: 5px;
+  box-shadow: 0px 0px 3px rgba(100, 100, 100, 0.2);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  overflow: hidden;
+  span {
+    font-size: 0.93rem;
+    width: 100%;
+    padding: 5px 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    &:hover {
+      background-color: #e2e2e2;
+    }
+  }
+`;
+
+export const MenuBar = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+  height: 70px;
+  background-color: #f5f0ebcc;
+  > svg {
+    font-size: 1.3rem;
+    color: #128c7e;
+    cursor: pointer;
+  }
+`;
+
+export const SearchBar = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  transition: 2s ease;
+  align-items: center;
+  padding: 0 20px;
+  width: 100%;
+  height: 70px;
+  background-color: #f5f0ebcc;
+  > svg {
+    font-size: 1.3rem;
+    color: #128c7e;
+    cursor: pointer;
+  }
+`;
+export const SearchInput = styled.input`
+  border: none;
+  height: 47.2px;
+  width: 410.4px;
+  outline: none;
+  padding: 1px 2px 1px 2px;
+  min-height: auto;
+  min-width: auto;
+  font-size: 0.9rem;
+  background-color: #f5f0ebcc;
+`;
+
+export const ForwardTo = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: rgb(232, 236, 232, 0.7);
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  z-index: 99;
+  animation: ${fadeIn} 0.2s ease;
+`;
+
+export const UserWrapper = styled.div`
+  position: relative;
+  z-index: 99;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width:500px;
+  height: 90px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  padding: 0 15rem 0 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  &:hover {
+    background-color: #e9e2dc80;
+  }
+  &:last-child {
+    border-radius: 0 0 7px 7px;
+  }
+  &:not(:last-child) {
+    border-bottom: none;
+  }
+`;
+export const UserTitle = styled.div`
+  width: 100%;
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin: 5px;
+`;
+export const Title = styled.div`
+  display: flex;
+  background-color: #2cbacf;
+  padding: 1rem 14.6rem 1rem 1.5rem;
+  border-radius: 7px 7px 0 0;
+  color: #0f393f;
+  align-items:center;
+  width:500px;
+  svg{
+    margin-right:10px;
+    cursor:pointer;
+  }
+`;
+
+export const MessegeTimer = styled.span`
+  color: #bbb;
+  font-size: 0.8rem;
+  align-items: center;
+  margin: 2px 3px 0 4px;
+
 `;

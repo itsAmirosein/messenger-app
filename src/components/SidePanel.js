@@ -1,37 +1,50 @@
-import React, { useContext } from "react";
+import React, { useState } from "react";
 import Chat from "./Chat";
+import SideMenu from "./SideMenu";
 import SidePanelSearchBar from "./SidePanelSearchBar";
 import { SideWrapper } from "./StyledComponents";
-import { DataContext } from "./Context";
-export default function SidePanel({ onClick }) {
-  const { data,darkmode } = useContext(DataContext);
+
+import MenuContext from "./Context";
+
+export default function SidePanel({ onClick, usersData, handelSearch }) {
+  const [SideMenuShow, setSideMenuShow] = useState(false);
+
+  const handleClick = () => {
+    setSideMenuShow(true);
+  };
+
+  const handleShow = () => {
+    setSideMenuShow(false);
+  };
 
   return (
-    <SideWrapper darkmode={darkmode}>
-      <SidePanelSearchBar />
-      {data.map((dataInfo) => {
-        const chats = [...dataInfo.chats];
-        const lastMessege = { ...chats[chats.length - 1] };
-        // console.log(lastMessege);
-        return (
-          data && (
-            <Chat
-              key={dataInfo.id}
-              id={dataInfo.id}
-              title={dataInfo.name}
-              gender={dataInfo.gender}
-              time={lastMessege.messegeTime}
-              // data={data}
-              lastMessege={
-                lastMessege.messege.length > 50
-                  ? `${lastMessege.messege.substring(0, 50)}...`
-                  : lastMessege.messege
-              }
-              onClick={() => onClick(dataInfo.id, dataInfo.gender)}
-            />
-          )
-        );
-      })}
-    </SideWrapper>
+    <MenuContext.Provider value={SideMenuShow}>
+      <SideWrapper>
+        <SidePanelSearchBar
+          onClick={handleClick}
+          handelOnChange={handelSearch}
+        />
+        {usersData.map((dataInfo) => {
+          return (
+            usersData && (
+              <Chat
+                key={dataInfo.id}
+                title={dataInfo.name}
+                time={dataInfo.chats.messegeTime}
+                gender={dataInfo.gender}
+                lastMessage={
+                  dataInfo.chats.length > 10
+                    ? `${dataInfo.chats.substring(0, 10)}...`
+                    : dataInfo.chats.messege
+                }
+                chatNumbers={dataInfo.chatsLength}
+                onClick={() => onClick(dataInfo.id)}
+              />
+            )
+          );
+        })}
+      </SideWrapper>
+      <SideMenu onClick={handleShow} />
+    </MenuContext.Provider>
   );
 }
